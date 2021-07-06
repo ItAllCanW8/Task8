@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://www.example.com/devices"
+         xsi:schemaLocation="http://www.example.com/banks devices.xsd">
+
+   <device device_id="device_1">
+      <name>GeForce RTX 2060</name>
+      <origin>China</origin>
+      <price>2250</price>
+      <type>
+         <is_peripheral>true</is_peripheral>
+         <power_consumption>200</power_consumption>
+         <is_cooler_present>true</is_cooler_present>
+         <group_of_devices>multimedia</group_of_devices>
+         <port>none</port>
+      </type>
+      <is_critical>false</is_critical>
+   </device>
+
+   <device device_id="device_2">
+      <name>Ryzen 5 3600</name>
+      <origin>China</origin>
+      <price>450</price>
+      <type>
+         <is_peripheral>false</is_peripheral>
+         <power_consumption>65</power_consumption>
+         <is_cooler_present>true</is_cooler_present>
+         <group_of_devices>CPU</group_of_devices>
+         <port>none</port>
+      </type>
+      <is_critical>true</is_critical>
+   </device>
+
+   <device device_id="device_3">
+      <name>Crucial Ballistix Sport LT</name>
+      <origin>China</origin>
+      <price>140</price>
+      <type>
+         <is_peripheral>false</is_peripheral>
+         <power_consumption>3</power_consumption>
+         <is_cooler_present>false</is_cooler_present>
+         <group_of_devices>RAM</group_of_devices>
+         <port>none</port>
+      </type>
+      <is_critical>true</is_critical>
+   </device>
+</devices>
