@@ -7,7 +7,7 @@
   <h3>XML File Upload</h3>
   <br/>
     <form method="post" action="controller" enctype="multipart/form-data" >
-      <input type="hidden" name="command" value="parse">
+<%--      <input type="hidden" name="command" value="parse">--%>
 
      <input type="file" name="file" accept=".xml"/> <br/>
       <br/>

@@ -23,4 +23,12 @@
         </param-value>
     </context-param>
 
+    <context-param>
+        <description>Location of xsd schema</description>
+        <param-name>xsd</param-name>
+        <param-value>
+            F:\University\EPAM\Task08\resources\devices.xsd
+        </param-value>
+    </context-param>
+
 </web-app>

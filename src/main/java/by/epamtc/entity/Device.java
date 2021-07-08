@@ -4,18 +4,12 @@ public class Device {
     private String name;
     private String origin;
     private int price;
-    private Type type;
+    private Type type = new Type();
     private boolean isCritical;
+    private String id;
+    private String dateTime;
 
     public Device(){}
-
-    public Device(String name, String origin, int price, Type type, boolean isCritical) {
-        this.name = name;
-        this.origin = origin;
-        this.price = price;
-        this.type = type;
-        this.isCritical = isCritical;
-    }
 
     public String getName() {
         return name;
@@ -57,6 +51,25 @@ public class Device {
         isCritical = critical;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDateTime() {
+        if(dateTime != null)
+            return dateTime;
+
+        return "not specified";
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -68,7 +81,9 @@ public class Device {
         if (isCritical != device.isCritical) return false;
         if (name != null ? !name.equals(device.name) : device.name != null) return false;
         if (origin != null ? !origin.equals(device.origin) : device.origin != null) return false;
-        return type != null ? type.equals(device.type) : device.type == null;
+        if (type != null ? !type.equals(device.type) : device.type != null) return false;
+        if (id != null ? !id.equals(device.id) : device.id != null) return false;
+        return dateTime != null ? dateTime.equals(device.dateTime) : device.dateTime == null;
     }
 
     @Override
@@ -78,6 +93,8 @@ public class Device {
         result = 31 * result + price;
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (isCritical ? 1 : 0);
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (dateTime != null ? dateTime.hashCode() : 0);
         return result;
     }
 
@@ -89,6 +106,8 @@ public class Device {
                 ", price=" + price +
                 ", type=" + type +
                 ", isCritical=" + isCritical +
+                ", id='" + id + '\'' +
+                ", dateTime='" + dateTime + '\'' +
                 '}';
     }
 }

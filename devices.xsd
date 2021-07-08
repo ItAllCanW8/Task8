@@ -15,9 +15,10 @@
             <element name="origin" type="string"/>
             <element name="price" type="tns:Price"/>
             <element name="type" type="tns:Type"/>
-            <element name="is_critical" type="boolean"/>
+            <element name="critical" type="boolean"/>
         </sequence>
         <attribute name="device_id" type="ID" use="required"/>
+        <attribute name="market_launch_date" type="dateTime" default="2010-01-01T00:00:00"/>
     </complexType>
 
     <simpleType name="Price">
@@ -29,9 +30,9 @@
 
     <complexType name="Type">
         <sequence>
-            <element name="is_peripheral" type="boolean"/>
+            <element name="peripheral" type="boolean"/>
             <element name="power_consumption" type="integer"/>
-            <element name="is_cooler_present" type="boolean"/>
+            <element name="cooler_present" type="boolean"/>
             <element name="group_of_devices" type="tns:GroupOfDevices"/>
             <element name="port" type="tns:Port"/>
         </sequence>

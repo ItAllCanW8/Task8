@@ -8,27 +8,27 @@
       <origin>China</origin>
       <price>2250</price>
       <type>
-         <is_peripheral>true</is_peripheral>
+         <peripheral>true</peripheral>
          <power_consumption>200</power_consumption>
-         <is_cooler_present>true</is_cooler_present>
+         <cooler_present>true</cooler_present>
          <group_of_devices>multimedia</group_of_devices>
          <port>none</port>
       </type>
-      <is_critical>false</is_critical>
+      <critical>false</critical>
    </device>
 
-   <device device_id="device_2">
+   <device device_id="device_2" market_launch_date="2021-07-07T00:00:00">
       <name>Ryzen 5 3600</name>
       <origin>China</origin>
       <price>450</price>
       <type>
-         <is_peripheral>false</is_peripheral>
+         <peripheral>false</peripheral>
          <power_consumption>65</power_consumption>
-         <is_cooler_present>true</is_cooler_present>
+         <cooler_present>true</cooler_present>
          <group_of_devices>CPU</group_of_devices>
          <port>none</port>
       </type>
-      <is_critical>true</is_critical>
+      <critical>true</critical>
    </device>
 
    <device device_id="device_3">
@@ -36,12 +36,12 @@
       <origin>China</origin>
       <price>140</price>
       <type>
-         <is_peripheral>false</is_peripheral>
+         <peripheral>false</peripheral>
          <power_consumption>3</power_consumption>
-         <is_cooler_present>false</is_cooler_present>
+         <cooler_present>false</cooler_present>
          <group_of_devices>RAM</group_of_devices>
          <port>none</port>
       </type>
-      <is_critical>true</is_critical>
+      <critical>true</critical>
    </device>
 </devices>

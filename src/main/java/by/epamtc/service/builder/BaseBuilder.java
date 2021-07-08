@@ -1,7 +1,9 @@
-package by.epamtc.service;
+package by.epamtc.service.builder;
 
 import by.epamtc.entity.Device;
+import by.epamtc.service.exception.BuilderException;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +14,5 @@ public abstract class BaseBuilder {
         return devices;
     }
 
-    public abstract void buildName();
-    public abstract void buildOrigin();
-    public abstract void buildPrice();
-    public abstract void buildType();
-    public abstract void buildIsCritical();
+    public abstract void buildDevices(File inputFile) throws BuilderException;
 }

@@ -1,56 +1,45 @@
 package by.epamtc.controller;
 
-import by.epamtc.entity.Device;
-import by.epamtc.service.Director;
-import by.epamtc.service.DomBuilder;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import by.epamtc.service.builder.Director;
+import by.epamtc.service.builder.DOMBuilder;
+import by.epamtc.service.builder.SAXBuilder;
+import by.epamtc.service.builder.StAXBuilder;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.Optional;
 
 public class Controller extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
             process(req, resp);
-        } catch(ServletException e) {
-            System.out.println(e.getMessage());
+        } catch(Exception e) {
+            req.getSession().setAttribute("error", e.getMessage());
+            req.getRequestDispatcher("WEB-INF/jsp/error.jsp").forward(req, resp);
         }
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
             process(req, resp);
-        } catch(ServletException e) {
-            System.out.println(e.getMessage());
+        } catch(Exception e) {
+            req.getSession().setAttribute("error", e.getMessage());
+            req.getRequestDispatcher("WEB-INF/jsp/error.jsp").forward(req, resp);
         }
     }
 
     private void process(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-//        PrintWriter pw = resp.getWriter();
-//        pw.println("<html>");
-//        pw.println("<h1>GELLO</h1>");
-//        pw.println("</html>");
-
-        String commandName = req.getParameter("command");
+//        String commandName = req.getParameter("command");
         req.setCharacterEncoding("UTF-8");
 
         Part filePart = req.getPart("file");
@@ -64,20 +53,36 @@ public class Controller extends HttpServlet {
             if(!file.exists())
                 Files.copy(fileContent, file.toPath());
         }
+        parse(req, resp);
 
-        parse(req);
-
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/jsp/parse_result.jsp");
-        requestDispatcher.forward(req,resp);
+        req.getRequestDispatcher("WEB-INF/jsp/parse_result.jsp").forward(req,resp);
     }
 
-    private void parse(HttpServletRequest req){
+    private void parse(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String fileName = (String)req.getServletContext().getAttribute("input-file");
-        //req.getSession().getServletContext()
+
         File inputFile = new File(req.getServletContext().
                 getInitParameter("file-upload") + "\\" + fileName);
 
-        List<Device> devices = Director.createDevices(new DomBuilder(inputFile));
-//        DomBuilder dom = new DomBuilder(req);
+        File xsd = new File(req.getServletContext().getInitParameter("xsd"));
+
+        Optional<String> parserType = Optional.ofNullable(req.getParameter("parser-type"));
+
+        if(!fileName.equals("") && parserType.isPresent() && xsd.exists()){
+            try{
+                if(parserType.get().equals("dom"))
+                    req.getSession().setAttribute("devices", Director.createDevices(new DOMBuilder(), inputFile, xsd));
+                else if (parserType.get().equals("sax"))
+                    req.getSession().setAttribute("devices", Director.createDevices(new SAXBuilder(), inputFile, xsd));
+                else
+                    req.getSession().setAttribute("devices", Director.createDevices(new StAXBuilder(), inputFile, xsd));
+            } catch (ServiceException ex) {
+                req.getSession().setAttribute("error", ex.getMessage());
+                req.getRequestDispatcher("WEB-INF/jsp/error.jsp").forward(req, resp);
+            }
+        } else{
+            req.getSession().setAttribute("error", "Oops! XML file not chosen or XSD schema not present");
+            req.getRequestDispatcher("WEB-INF/jsp/error.jsp").forward(req, resp);
+        }
     }
 }
